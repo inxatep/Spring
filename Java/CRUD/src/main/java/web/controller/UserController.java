@@ -13,8 +13,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @GetMapping(value = "/")
     public String viewHomePage(Model model) {
         model.addAttribute("user",new User());
         model.addAttribute("listUsers", userService.getAll());
@@ -28,7 +27,7 @@ public class UserController {
         return "new_user";
     }
 
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    @PostMapping(value = "/save")
     public String addBook(@ModelAttribute("user") User user){
         if(user.getId() == 0){
             userService.add(user);
@@ -51,7 +50,7 @@ public class UserController {
         return "redirect:/";
     }
 
-    @RequestMapping("/delete/{id}")
+    @GetMapping("/delete/{id}")
     public String deleteUser(@ModelAttribute(name = "id") int id) {
         userService.delete(id);
         return "redirect:/";
