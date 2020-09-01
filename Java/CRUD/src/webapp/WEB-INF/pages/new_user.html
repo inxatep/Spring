@@ -3,14 +3,14 @@
 
 <head>
     <meta charset="ISO-8859-1">
-    <title>Employee Management System</title>
+    <title>New User</title>
 </head>
 
 <body>
 <div class="container">
-    <h1>User Management System</h1>
-    <hr>
+    <body><div align="center">
     <h2>Save User</h2>
+
 
     <form action="#" th:action="@{/save}" th:object="${user}" method="POST">
         <input type="text" th:field="*{name}" placeholder="Employee First Name" class="form-control mb-4 col-4">

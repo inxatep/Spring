@@ -4,53 +4,43 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import web.model.User;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 
 @Repository
+@Transactional
 public class UserDaoImp implements UserDao {
 
-    private SessionFactory sessionFactory;
+    @PersistenceContext
+    private EntityManager entityManager;
 
-    @Autowired
-    public void setSessionFactory(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
-
-    @Override
-    public void add(User user) {
-        Session session = sessionFactory.getCurrentSession();
-        session.persist(user);
-    }
-
-    @Override
-    public void delete(int id) {
-        Session session = sessionFactory.getCurrentSession();
-        User user = (User) session.load(User.class, new Integer(id));
-        if(user!=null) {
-            session.delete(user);
-        }
-    }
-
-    @Override
-    public void update(User user) {
-        Session session = sessionFactory.getCurrentSession();
-        session.update(user);
-
-    }
-
-    @Override
     public List<User> getAll() {
-        Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("from User").list();
+        String query = "from User order by id";
+        TypedQuery<User> typedQuery = entityManager.createQuery(query, User.class);
+        return typedQuery.getResultList();
     }
 
-    @Override
-    public User getById(int id) {
-        Session session = sessionFactory.getCurrentSession();
-        User user = (User) session.load(User.class, new Integer(id));
-        return user;
+    public User getById (int id) {
+        return entityManager.find(User.class, id);
+    }
+
+    public void update(User user) {
+        entityManager.merge(user);
+    }
+
+    public void add(User user) {
+        entityManager.persist(user);
+    }
+
+    public void delete(int id) {
+        User user = entityManager.find(User.class, id);
+        entityManager.remove(user);
     }
 }
