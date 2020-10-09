@@ -10,6 +10,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import web.model.Role;
 import web.model.User;
 
 import javax.sql.DataSource;
@@ -46,7 +47,7 @@ public class HiberConfig {
 
 
         factoryBean.setHibernateProperties(props);
-        factoryBean.setAnnotatedClasses(User.class);
+        factoryBean.setAnnotatedClasses(User.class, Role.class);
 
         return factoryBean;
     }
@@ -58,4 +59,5 @@ public class HiberConfig {
         return transactionManager;
     }
 }
+
 

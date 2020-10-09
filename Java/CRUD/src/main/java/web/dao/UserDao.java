@@ -1,4 +1,4 @@
-package web.Dao;
+package web.dao;
 
 import web.model.User;
 
@@ -16,4 +16,5 @@ public interface UserDao {
 
     User getById(int id);
 
+    User getUserByName(String name);
 }

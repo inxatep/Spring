@@ -1,15 +1,11 @@
-package web.Dao;
+package web.dao;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import web.model.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
@@ -20,6 +16,7 @@ public class UserDaoImp implements UserDao {
 
     @PersistenceContext
     private EntityManager entityManager;
+
 
     public List<User> getAll() {
         String query = "from User order by id";
@@ -43,4 +40,12 @@ public class UserDaoImp implements UserDao {
         User user = entityManager.find(User.class, id);
         entityManager.remove(user);
     }
+
+    @Override
+    public User getUserByName(String name) {
+        return  entityManager.createQuery("Select u.name from User u where name =:name",User.class)
+                .setParameter("name", name)
+                .getSingleResult();
+    }
+
 }
