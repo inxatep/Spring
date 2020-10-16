@@ -10,6 +10,7 @@ import web.model.User;
 
 import javax.annotation.PostConstruct;
 import java.util.Collections;
+import java.util.Set;
 
 @Service
 public class DBInitializer {
