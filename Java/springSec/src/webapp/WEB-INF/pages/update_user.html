@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<body>
+<div class="container">
+    <h2>Update User</h2>
+
+    <body><div align="center">
+        <h1>Update User</h1>
+        <form action="editAdd" method="POST">
+        <table>
+            <!--<tr><p>Id: <input th:type="number" th:value="*{id}"></p></tr>-->
+            <tr><p>First_Name: <input th:type="text" th:field="*{user.name}"></p></tr>
+            <tr><p>Password: <input th:type="text" th:field="*{user.password}"></p></tr>
+            <br>
+            <select multiple size="2" name="role" >
+                <option value="ROLE_ADMIN">ROLE_ADMIN</option>
+                <option selected="selected" value="ROLE_USER">ROLE_USER</option>
+            </select>
+
+            <input type="hidden" name="id" th:value="*{user.id}">
+            <input type="submit" value="Save">
+        </table>
+    </form>
+        <a th:href="@{/}">Return</a></div></body>
+
+</div>
+</body>
+</html>
