@@ -1,20 +1,18 @@
 package web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import web.model.Role;
 import web.model.User;
 import web.service.RoleService;
 import web.service.UserService;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 @RequestMapping("/admin/")
@@ -27,54 +25,57 @@ public class AdminController {
     private RoleService roleService;
 
 
+
     @GetMapping(value = "index")
     public String viewHomePage(Model model) {
+        model.addAttribute("listRoles", roleService.getAll());
         model.addAttribute("listUsers", userService.getAll());
+        Authentication authUser = SecurityContextHolder.getContext().getAuthentication();
+        model.addAttribute("authUser", userService.getUserByName(authUser.getName()));
         return "index";
     }
-
+     /*
     @GetMapping(value ="newUser")
     public String showNewUser(Model model) {
         User user = new User();
         model.addAttribute("user", user);
-        return "new_user";
+        return "index";
     }
 
-    @PostMapping(value = "save")
-    public String addNewUser(@RequestParam(value = "name") String name,
-                             @RequestParam(value = "password") String password,
-                             @RequestParam("role") String[] role) {
+      */
+
+    @PostMapping(value ="index")
+    public String addNewUser(User user,
+                             @RequestParam("roles") Long[] roleIds){
         Set<Role> roleSet = new HashSet<>();
-        for (String roles : role) {
-            roleSet.add(roleService.getRoleByName(roles));
+        for (Long roles : roleIds) {
+            roleSet.add(roleService.getById(roles));
         }
-        userService.update(new User(name, password, roleSet ));
+        user.setRoles(roleSet);
+        userService.update(user);
         return "redirect:index";
     }
 
     @GetMapping("edit")
     public String editPage(@RequestParam("id") Long id, ModelMap model){
         model.addAttribute("user", userService.getById(id));
-        return "update_user";
+        return "redirect:index";
     }
 
-    @PostMapping("editAdd")
-    public String editUser(Model model,
-                           @RequestParam("id") Long id,
-                           @RequestParam("name") String name,
-                           @RequestParam("password") String password,
-                           @RequestParam("role") String[] role){
+    @PostMapping(value = "editA")
+    public String editUser(User user,
+                           @RequestParam("roles") Long[] roleIds){
         Set<Role> roleSet = new HashSet<>();
-        for (String roles : role) {
-            roleSet.add(roleService.getRoleByName(roles));
+        for (Long roles : roleIds) {
+            roleSet.add(roleService.getById(roles));
         }
-        userService.update(new User(id, name, password, roleSet ));
+        user.setRoles(roleSet);
+        userService.update(user);
         return "redirect:index";
     }
 
     @GetMapping("delete")
-    public String deleteUser(@RequestParam(value = "id") String id) {
-        Long userId = Long.parseLong(id);
+    public String deleteUser(@RequestParam(value = "id") Long userId) {
         userService.delete(userId);
         return "redirect:index";
     }

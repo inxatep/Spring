@@ -1,4 +1,4 @@
-package web.controller;
+/*package web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -11,17 +11,19 @@ import web.service.UserService;
 
 
 @Controller
-@RequestMapping("/user/")
+@RequestMapping("/index/")
 public class UserController {
 
 	@Autowired
 	private UserService userService;
 
-	@GetMapping(value = "hello")
+	@GetMapping(value = "index")
 	public String printUserInfo(Model model) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		model.addAttribute("user", userService.getUserByName(auth.getName()));
 
-		return "hello.html";
+		return "index";
 	}
 }
+
+ */

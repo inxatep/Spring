@@ -16,6 +16,7 @@ import web.config.handler.MyLoginSuccessHandler;
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+
     private final UserDetailsService userDetailsService; // сервис, с помощью которого тащим пользователя
     private final MyLoginSuccessHandler loginSuccessHandler; // класс, в котором описана логика перенаправления пользователей по ролям
 
@@ -38,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable(); //- попробуйте выяснить сами, что это даёт
         http.authorizeRequests()
                 .antMatchers("/").permitAll()// доступность всем
-                .antMatchers("/user/**").access("hasAnyRole('ROLE_USER','ROLE_ADMIN')");// разрешаем входить на /user пользователям с ролью User
+                .antMatchers("/admin/**").access("hasAnyRole('ROLE_USER','ROLE_ADMIN')");// разрешаем входить на /user пользователям с ролью User
                 //.and().formLogin();  //Spring сам подставит свою логин форму
                 //.successHandler(loginSuccessHandler); // подключаем наш SuccessHandler для перенеправления по ролям
 
@@ -63,17 +64,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/login?logout")
                 //выклчаем кроссдоменную секьюрность (на этапе обучения неважна)
                 .and().csrf().disable();
-        http
+      /*  http
                 // делаем страницу регистрации недоступной для авторизированных пользователей
                 .authorizeRequests()
                 //страницы аутентификаци доступна всем
                 .antMatchers("/login").anonymous()
                 // защищенные URL
                 .antMatchers("/admin/**").access("hasRole('ADMIN')").anyRequest().authenticated();
+
+       */
     }
     @Bean
     public static PasswordEncoder passwordEncoder () {
         return new BCryptPasswordEncoder(10);
+
+
 
     }
 }

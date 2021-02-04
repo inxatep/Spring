@@ -9,12 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/")
 public class LoginController {
 
-    @GetMapping(value = "/")
-    public String back() {
-        return "Back";
-    }
 
-    @RequestMapping(value = "login", method = RequestMethod.GET)
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public String login() {
         return "login";
     }
