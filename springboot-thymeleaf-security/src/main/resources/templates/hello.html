@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello!</title>
+
+<meta name="viewport" content="width=device=width, initial-scale=1">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+    <div class="col">
+<table class="table">
+    <thead class="thead-dark">
+<div th:align="left">
+    <tr>
+        <th><h3> <b th:inline="text"> [[${#httpServletRequest.remoteUser}]] with roles: USER </b></h3><th>
+        <ul class="nav justify-content-end">
+            <li class="nav-item">
+                <p><a class="text-secondary" href="/login" method="POST" ><h4>Logout</h4></a></p>
+            </li>
+        </ul>
+    </tr>
+</div>
+    </thead>
+    </tbody>
+</table>
+    <div class="row">
+        <div class="col-2 col-md-2">
+            <div class="bg-primary text-white">
+                <th><h3><b th:inline="text"> [[${#httpServletRequest.remoteUser}]] </b></h3></th>
+            </div>
+        </div>
+        <div class="col">
+            <th><h1>User information-page</h1><th>
+            <table class="table">
+                <tbody>
+                <thead>
+                <tr>
+                    <th><h4>About user</h4></th>
+                </tr>
+                </tbody>
+                </thead>
+    <table class="table">
+        <tbody>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Password</th>
+            <th>Role</th>
+        </tr>
+        </tbody>
+        </thead>
+        <tbody>
+        <tr>
+            <th th:text="${user.id}"/>
+            <td th:text="${user.name}"/>
+            <td th:text="${user.password}"/>
+            <td th:text="${user.roles}"/>
+        </tr>
+        </tbody>
+    </table>
+            </table>
+
+    </div>
+    </div>
+</div>
+    </div>
+</div>
+
+</div>
+<br>
+</body>
+</html>
